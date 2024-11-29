@@ -1,11 +1,33 @@
 import tkinter
 
+def start_playing():
+    global win
+    global buttons
+    global current_player
+
+    if win is True:
+        current_player = "X"
+        win = False
+
+        for column in range(3):
+            for row in range(3):
+                buttons[column][row].config(text="")
+
+        label.config(text="Player : "+current_player)
+
 def print_winner():
     global win
     global label
     if win is False:
         win = True
         label.config(text="Player "+current_player+" is the winner")
+
+def print_nowinner():
+    global win
+    global label
+    if win is False:
+        win = True
+        label.config(text="Neither team can win")
 
 def switch_player():
     global current_player
@@ -66,7 +88,7 @@ def check_win(clicked_row, clicked_col):
                 if current_button['text'] == "X" or current_button['text'] == "O":
                     count += 1
         if count == 9:
-            label.config(text="Neither team can win")
+            print_nowinner()
 
 def place_symbol(row, column):
     if win is False:
@@ -98,6 +120,14 @@ def draw_grid():
             button.grid(row=row, column=column)
             buttons_in_cols.append(button)
         buttons.append(buttons_in_cols)
+
+    playbutton = tkinter.Button(
+        root, font=("Arial", 20),
+        text="Play !",
+        command=lambda : start_playing()
+    )
+    playbutton.grid(row=2)
+
 
 # vars
 
